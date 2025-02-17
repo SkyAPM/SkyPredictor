@@ -29,7 +29,7 @@ on:
 
 jobs:
   build-docker:
-    if: github.repository == 'SkyAPM/R3'
+    if: github.repository == 'SkyAPM/SkyPredictor'
     runs-on: ubuntu-latest
     permissions:
       contents: read
