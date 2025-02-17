@@ -1,0 +1,30 @@
+logging:
+  level: "${LOGGING_LEVEL:INFO}"
+  format: "${LOGGING_FORMAT:%(asctime)s - %(name)s - %(levelname)s - %(message)s}"
+
+server:
+  grpc:
+    port: "${GRPC_PORT:18080}"
+  monitor:
+    enabled: "${MONITOR_ENABLED:true}"
+    port: "${MONITOR_PORT:8000}"
+
+baseline:
+  cron: "${BASELINE_FETCH_CRON:*/8 * * * *}"
+  fetch:
+    server:
+      address: "${BASELINE_FETCH_SERVER_ENDPOINT:http://localhost:12800/}"
+      username: "${BASELINE_FETCH_SERVER_USERNAME:}"
+      password: "${BASELINE_FETCH_SERVER_PASSWORD:}"
+      down_sampling: "${BASELINE_FETCH_SERVER_DOWN_SAMPLING:HOUR}"
+      layers: "${BASELINE_FETCH_SERVER_LAYERS:GENERAL}"
+    metrics:
+      - name: "service_cpm"
+        enabled: "${BASELINE_FETCH_METRIC_SERVICE_CPM_ENABLED:true}"
+      - name: "service_percentile"
+        enabled: "${BASELINE_FETCH_METRIC_SERVICE_PERCENTILE_ENABLED:true}"
+  predict:
+    directory: "${BASELINE_PREDICT_DIRECTORY:./out_predict}"
+    min_days: "${BASELINE_PREDICT_MIN_DAYS:2}"
+    frequency: "${BASELINE_PREDICT_FREQUENCY:h}"
+    period: "${BASELINE_PREDICT_PERIOD:24}"
