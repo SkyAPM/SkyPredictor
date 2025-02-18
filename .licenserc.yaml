@@ -39,5 +39,6 @@ header:
     - 'proto'
     - '.idea'
     - 'poetry.lock'
+    - 'docs'
 
   comment: on-failure
