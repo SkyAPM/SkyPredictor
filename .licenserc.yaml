@@ -37,6 +37,8 @@ header:
     - '**/*.proto'
     - '.github'
     - 'proto'
+    - '.idea'
+    - 'poetry.lock'
     - 'docs'
 
   comment: on-failure
