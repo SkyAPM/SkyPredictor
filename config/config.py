@@ -75,7 +75,14 @@ class BaselineFetchGraphqlServerConfig(BaseModel):
 
 class BaselineFetchConfig(BaseModel):
     server: BaselineFetchGraphqlServerConfig
-    metrics: List[BaselineFetchMetricsConfig] = []
+    metrics: List[str]
+
+    @model_validator(mode="before")
+    @classmethod
+    def convert_layers(cls, values):
+        if isinstance(values.get("metrics"), str):
+            values["metrics"] = [metrics.strip() for metrics in values["metrics"].split(",")]
+        return values
 
 
 class BaselinePredictConfig(BaseModel):

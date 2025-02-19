@@ -32,11 +32,7 @@ baseline:
       password: "${BASELINE_FETCH_SERVER_PASSWORD:}"
       down_sampling: "${BASELINE_FETCH_SERVER_DOWN_SAMPLING:HOUR}"
       layers: "${BASELINE_FETCH_SERVER_LAYERS:GENERAL}"
-    metrics:
-      - name: "service_cpm"
-        enabled: "${BASELINE_FETCH_METRIC_SERVICE_CPM_ENABLED:true}"
-      - name: "service_percentile"
-        enabled: "${BASELINE_FETCH_METRIC_SERVICE_PERCENTILE_ENABLED:true}"
+    metrics: "${BASELINE_FETCH_METRICS:service_cpm,service_percentile}"
   predict:
     directory: "${BASELINE_PREDICT_DIRECTORY:./out_predict}"
     min_days: "${BASELINE_PREDICT_MIN_DAYS:2}"
