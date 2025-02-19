@@ -5,7 +5,7 @@ import warnings
 from . import baseline_pb2 as baseline__pb2
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
-GRPC_GENERATED_VERSION = '1.68.1'
+GRPC_GENERATED_VERSION = '1.70.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -35,12 +35,12 @@ class AlarmBaselineServiceStub(object):
             channel: A grpc.Channel.
         """
         self.querySupportedMetricsNames = channel.unary_unary(
-                '/AlarmBaselineService/querySupportedMetricsNames',
+                '/skywalking.v3.AlarmBaselineService/querySupportedMetricsNames',
                 request_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
                 response_deserializer=baseline__pb2.AlarmBaselineMetricsNames.FromString,
                 _registered_method=True)
         self.queryPredictedMetrics = channel.unary_unary(
-                '/AlarmBaselineService/queryPredictedMetrics',
+                '/skywalking.v3.AlarmBaselineService/queryPredictedMetrics',
                 request_serializer=baseline__pb2.AlarmBaselineRequest.SerializeToString,
                 response_deserializer=baseline__pb2.AlarmBaselineResponse.FromString,
                 _registered_method=True)
@@ -78,9 +78,9 @@ def add_AlarmBaselineServiceServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'AlarmBaselineService', rpc_method_handlers)
+            'skywalking.v3.AlarmBaselineService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('AlarmBaselineService', rpc_method_handlers)
+    server.add_registered_method_handlers('skywalking.v3.AlarmBaselineService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
@@ -101,7 +101,7 @@ class AlarmBaselineService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/AlarmBaselineService/querySupportedMetricsNames',
+            '/skywalking.v3.AlarmBaselineService/querySupportedMetricsNames',
             google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
             baseline__pb2.AlarmBaselineMetricsNames.FromString,
             options,
@@ -128,7 +128,7 @@ class AlarmBaselineService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/AlarmBaselineService/queryPredictedMetrics',
+            '/skywalking.v3.AlarmBaselineService/queryPredictedMetrics',
             baseline__pb2.AlarmBaselineRequest.SerializeToString,
             baseline__pb2.AlarmBaselineResponse.FromString,
             options,
