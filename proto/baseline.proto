@@ -1,4 +1,5 @@
 syntax = "proto3";
+package skywalking.baseline.v3;
 
 import "google/protobuf/empty.proto";
 
