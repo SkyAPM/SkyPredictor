@@ -107,11 +107,11 @@ class GraphQLFetcher(Fetcher):
         self.conf = conf
         self.services = None
         self.total_period = None
-        self.metrics = {metric.name: metric for metric in conf.metrics}
+        self.metrics = conf.metrics
         self.base_address = conf.server.address if not conf.server.address.endswith("/") else conf.server.address[:-1]
 
     def metric_names(self) -> list[str]:
-        return [meter.name for meter in self.conf.metrics if meter.enabled]
+        return self.conf.metrics
 
     def ready_fetch(self):
         all_services = set()
@@ -124,9 +124,6 @@ class GraphQLFetcher(Fetcher):
 
     def fetch(self, metric_name: str) -> Optional[FetchedData]:
         if self.services is None or len(self.services) == 0:
-            return None
-        meter_conf = self.metrics[metric_name]
-        if not meter_conf.enabled:
             return None
         fetch_data = None
         for (service, normal) in self.services:
