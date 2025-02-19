@@ -93,8 +93,6 @@ The following configuration need to be updated:
 1. **OAP Restful Address**: The Restful Address of OAP to fetch metrics data.
 2. **Metrics List**: Which metrics need to be fetched for prediction.
 
-For details, refer to the [configuration documentation](../../configuration/config.md).
-
 #### Deploy Predictor
 
 Please follow the [deployment.yml](examples/deployment.yml) to deploy the predictor in your Kubernetes cluster.
