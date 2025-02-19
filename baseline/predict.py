@@ -133,7 +133,8 @@ class PredictMeterResult:
 def meter_to_result(meter: ReadyPredictMeter, single: Optional[pd.DataFrame] = None,
                     multiple: Optional[dict[frozenset[LabelKeyValue], pd.DataFrame]] = None) -> PredictMeterResult:
     if single is not None:
-        data = single[~single['ds'].isin(meter.single_df['ds'])]
+        max_ds = meter.single_df['ds'].max()
+        data = single[~single['ds'].isin(meter.single_df['ds']) | (single['ds'] == max_ds)]
         result: list[PredictTimestampWithSingleValue] = []
         for idx, row in data.iterrows():
             result.append(PredictTimestampWithSingleValue(
@@ -144,7 +145,8 @@ def meter_to_result(meter: ReadyPredictMeter, single: Optional[pd.DataFrame] = N
     elif multiple is not None:
         result: list[PredictLabeledWithLabeledValue] = []
         for labels, label_df in meter.label_dfs.items():
-            data = multiple[labels][~multiple[labels]['ds'].isin(label_df['ds'])]
+            max_ds = label_df['ds'].max()
+            data = multiple[labels][(~multiple[labels]['ds'].isin(label_df['ds'])) | (multiple[labels]['ds'] == max_ds)]
             time_with_values: list[PredictTimestampWithSingleValue] = []
             for idx, row in data.iterrows():
                 time_with_values.append(PredictTimestampWithSingleValue(
@@ -176,7 +178,7 @@ class PredictService:
     def predict0(self) -> list[PredictMeterResult]:
         predict_total_count.labels(self.name).inc()
         data = self.fetcher.fetch(self.name)
-        if data is None:
+        if data is None or len(data.df) == 0:
             logger.info(f"no data fetched for {self.name}")
             return []
         result: list[PredictMeterResult] = []
