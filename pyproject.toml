@@ -33,7 +33,7 @@ grpcio-tools = "^1.70.0"
 pydantic = "^2.10.6"
 pyyaml = "^6.0.2"
 prometheus-client = "^0.21.1"
-kubernetes = "^32.0.0"
+kubernetes = "^32.0.1"
 
 [build-system]
 requires = ["poetry-core"]
