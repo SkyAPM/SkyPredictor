@@ -64,7 +64,15 @@ class BaselineQueryServer(AlarmBaselineServiceServicer):
 
     async def queryPredictedMetrics(self, request: AlarmBaselineRequest, context):
         logger.info(
-            f"receive query predict metrics query, total service with metrics count: {len(request.serviceMetricNames)}")
+            f"receive query predict metrics query, total service with metrics count: {len(request.serviceMetricNames)}, "
+            f"start time: {request.startTimeBucket}, end time: {request.endTimeBucket}, step: {request.step}")
+        if logger.isEnabledFor(logging.DEBUG):
+            info = [{
+                'service': service_metrics.serviceName,
+                'metrics': [m for m in service_metrics.metricNames]
+            } for service_metrics in request.serviceMetricNames]
+            logger.debug(f"total service with metrics: {info}")
+
         results: dict[str, dict[str, list[PredictMeterResult]]] = {}
         for serviceWithMetrics in request.serviceMetricNames:
             predict_metrics = self.result_manager.query(serviceWithMetrics.serviceName,
@@ -98,15 +106,19 @@ def convert_response_metrics(service: str, metric_name: str, results: list[Predi
     for result in results:
         if result.single is not None:
             return AlarmBaselineMetricPrediction(name=metric_name,
-                                                 values=convert_response_single_value(result.single, step))
+                                                 values=convert_response_single_value(result.single, step, service, metric_name))
         elif result.labeled is not None:
             return AlarmBaselineMetricPrediction(name=metric_name,
-                                                 values=convert_response_multiple_value(result.labeled, step))
+                                                 values=convert_response_multiple_value(result.labeled, step, service, metric_name))
 
 
-def convert_response_single_value(values: list[PredictTimestampWithSingleValue], step: TimeBucketStep) -> list[
+def convert_response_single_value(values: list[PredictTimestampWithSingleValue], step: TimeBucketStep, service: str, metric_name: str) -> list[
     AlarmBaselinePredicatedValue]:
     result = []
+
+    min_value = 0
+    max_value = 0
+    count = 0
     for value in values:
         result.append(AlarmBaselinePredicatedValue(
             timeBucket=convert_response_time_bucket(value.timestamp, step),
@@ -118,12 +130,24 @@ def convert_response_single_value(values: list[PredictTimestampWithSingleValue],
                 )
             )
         ))
+
+        count += 1
+        min_value = min(min_value, value.value.lower_value)
+        max_value = max(max_value, value.value.upper_value)
+
+    if logger.isEnabledFor(logging.DEBUG):
+        if count > 0:
+            logger.debug(f"ready to convert predict service: {service}, metric: {metric_name}, "
+                         f"min value: {min_value}, max value: {max_value}, count: {count}")
+        else:
+            logger.debug(f"no predict value for service: {service}, metric: {metric_name}")
     return result
 
 
-def convert_response_multiple_value(values: list[PredictLabeledWithLabeledValue], step: TimeBucketStep) -> list[
+def convert_response_multiple_value(values: list[PredictLabeledWithLabeledValue], step: TimeBucketStep, service: str, metric_name: str) -> list[
     AlarmBaselinePredicatedValue]:
     time_values: dict[int, list[AlarmBaselineLabeledValue.LabelWithValue]] = {}
+
     for val in values:
         labels = convert_response_labels(val.label)
         for time_with_value in val.time_with_values:
@@ -140,11 +164,19 @@ def convert_response_multiple_value(values: list[PredictLabeledWithLabeledValue]
             ))
 
     result = []
+    count = 0
     for time_bucket, vals in time_values.items():
         result.append(AlarmBaselinePredicatedValue(
             timeBucket=time_bucket,
             labeledValue=AlarmBaselineLabeledValue(values=vals)
         ))
+        count += 1
+
+    if logger.isEnabledFor(logging.DEBUG):
+        if count > 0:
+            logger.debug(f"ready to convert predict service: {service}, metric: {metric_name}, count: {count}")
+        else:
+            logger.debug(f"no predict value for service: {service}, metric: {metric_name}")
     return result
 
 
