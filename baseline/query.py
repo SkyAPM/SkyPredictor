@@ -66,12 +66,18 @@ class BaselineQueryServer(AlarmBaselineServiceServicer):
         logger.info(
             f"receive query predict metrics query, total service with metrics count: {len(request.serviceMetricNames)}, "
             f"start time: {request.startTimeBucket}, end time: {request.endTimeBucket}, step: {request.step}")
+        # check the request metrics is supported
+        service_must_contains_metrics: dict[str, list[str]] = {}
+        for service_metrics in request.serviceMetricNames:
+            service_must_contains_metrics[service_metrics.serviceName] = list(set(service_metrics.metricNames).
+                                                                              intersection(self.support_metrics_names))
+
         if logger.isEnabledFor(logging.DEBUG):
             info = [{
                 'service': service_metrics.serviceName,
                 'metrics': [m for m in service_metrics.metricNames]
             } for service_metrics in request.serviceMetricNames]
-            logger.debug(f"total service with metrics: {info}")
+            logger.debug(f"total service with metrics ready to query: {info}")
 
         results: dict[str, dict[str, list[PredictMeterResult]]] = {}
         for serviceWithMetrics in request.serviceMetricNames:
@@ -93,6 +99,11 @@ class BaselineQueryServer(AlarmBaselineServiceServicer):
             predictions = []
             for metric_name, result in metricsWithPredictValues.items():
                 predictions.append(convert_response_metrics(service, metric_name, result, request.step))
+
+            # if the predict metrics count not equals the request metrics count, we need to ignore it
+            if len(service_must_contains_metrics[service]) != len(predictions):
+                continue
+
             serviceMetrics.append(AlarmBaselineServiceMetric(
                 serviceName=service,
                 predictions=predictions
