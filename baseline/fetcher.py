@@ -169,7 +169,9 @@ class GraphQLFetcher(Fetcher):
 
         results = self.fetch_data(f"{self.base_address}/graphql", payload)['result']['results']
         if len(results) == 0:
+            logger.debug(f"No data found for {metric_name}(service: {service_name}) from {start} to {end}")
             return prev_data, 0
+        logger.debug(f"Fetch {len(results)} data points for {metric_name}(service: {service_name}) from {start} to {end}")
 
         if prev_data is None:
             df = pd.DataFrame()
@@ -213,7 +215,8 @@ class GraphQLFetcher(Fetcher):
                     df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
                     count += 1
             prev_data.df = df
-            logger.info(f"Fetched {count} data points for {metric_name}(service: {service_name}) from {min_date} to {max_date}")
+            logger.info(f"Fetched {count} data points for {metric_name}(service: {service_name}) from {min_date} to {max_date}, "
+                        f"original query time range({self.conf.server.down_sampling}): {start} to {end}")
             return prev_data, count
         elif prev_data.multiple is not None:
             df = prev_data.df
@@ -237,7 +240,8 @@ class GraphQLFetcher(Fetcher):
                     df = pd.concat([df, pd.DataFrame([row])])
                     count += 1
             prev_data.df = df
-            logger.info(f"Fetched {count} data points for {metric_name}(service: {service_name}) from {min_date} to {max_date}")
+            logger.info(f"Fetched {count} data points for {metric_name}(service: {service_name}) from {min_date} to {max_date}, "
+                        f"original query time range({self.conf.server.down_sampling}): {start} to {end}")
 
         return prev_data, count
 
@@ -258,6 +262,8 @@ class GraphQLFetcher(Fetcher):
         names = []
         for service in services:
             names.append((service['label'], bool(service['normal'])))
+        if logger.isEnabledFor(logging.DEBUG):
+            logger.debug(f"Fetch {names} services from layer {layer}")
         return names
 
     def query_need_period(self) -> int:
