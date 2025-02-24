@@ -11,29 +11,3 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
-
-[tool.poetry]
-name = "sky-predictor"
-version = "0.1.0"
-description = "SkyPredictor is a metric trend predictor to generate alarm baselines."
-authors = ["mrproliu <741550557@qq.com>"]
-readme = "README.md"
-
-packages = [
-    { include = "baseline" }
-]
-
-[tool.poetry.dependencies]
-python = "^3.12"
-prophet = "^1.1.6"
-apscheduler = "^3.11.0"
-grpcio = "^1.70.0"
-grpcio-tools = "^1.70.0"
-pydantic = "^2.10.6"
-pyyaml = "^6.0.2"
-prometheus-client = "^0.21.1"
-kubernetes = "^32.0.1"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

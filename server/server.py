@@ -18,15 +18,15 @@ import os
 import sys
 import tempfile
 
+import baseline
 from prometheus_client import CollectorRegistry, multiprocess, start_http_server
 
-import config.config
 from baseline.fetcher import GraphQLFetcher
 from baseline.predict import PredictConfig
 from baseline.query import Query
 from baseline.result import MeterNameResultManager
 from baseline.scheduler import Scheduler
-from config.config import current_config
+from baseline.config.config import current_config
 
 
 def update_log_level(name, level):
@@ -36,7 +36,7 @@ def update_log_level(name, level):
     logger.setLevel(level)
 
 
-def init_logger(c: config.config.LogConfig):
+def init_logger(c: baseline.config.config.LogConfig):
     formatter = logging.Formatter(c.format)
     console_handler = logging.StreamHandler()
     console_handler.setFormatter(formatter)

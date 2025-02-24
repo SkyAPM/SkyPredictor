@@ -28,7 +28,7 @@ endif
 
 .PHONY: all
 gen:
-	poetry run python -m proto.generate
+	poetry run python -m baseline.proto.generate
 
 poetry:
 ifeq ($(OS),Windows)

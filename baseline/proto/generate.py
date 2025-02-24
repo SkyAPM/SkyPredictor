@@ -54,7 +54,7 @@ def codegen(proto_location: str):
             file.truncate()
 
 def main():
-    for proto_name, proto_path in protos(src_dir='proto'):
+    for proto_name, proto_path in protos(src_dir='baseline/proto'):
         if proto_name == 'empty.proto':
             print('Skipping `empty.proto` since its a hacky workaround for grpcio-tools')
             continue

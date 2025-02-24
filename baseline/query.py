@@ -23,11 +23,11 @@ from baseline.fetcher import Fetcher
 from baseline.result import ResultManager, QueryTimeBucketStep
 from baseline.predict import PredictMeterResult, PredictTimestampWithSingleValue, PredictLabeledWithLabeledValue, \
     LabelKeyValue
-from proto.generated.baseline_pb2 import AlarmBaselineRequest, AlarmBaselineServiceMetric, AlarmBaselineResponse, \
+from baseline.proto.generated.baseline_pb2 import AlarmBaselineRequest, AlarmBaselineServiceMetric, AlarmBaselineResponse, \
     AlarmBaselineMetricPrediction, AlarmBaselinePredicatedValue, TimeBucketStep, AlarmBaselineSingleValue, \
     AlarmBaselineValue, KeyStringValuePair, AlarmBaselineLabeledValue, AlarmBaselineMetricsNames
-from proto.generated.baseline_pb2_grpc import AlarmBaselineServiceServicer
-from proto.generated.baseline_pb2_grpc import add_AlarmBaselineServiceServicer_to_server
+from baseline.proto.generated.baseline_pb2_grpc import AlarmBaselineServiceServicer
+from baseline.proto.generated.baseline_pb2_grpc import add_AlarmBaselineServiceServicer_to_server
 
 logger = logging.getLogger(__name__)
 
