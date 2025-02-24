@@ -23,7 +23,7 @@ COPY . /app
 
 # Build the project with make
 RUN python3 -m pip install grpcio-tools==1.70.0 packaging \
-	&& python3 -m proto.generate gen \
+	&& python3 -m baseline.proto.generate gen \
     && python3 -m pip install .[all]
 
 RUN mkdir -p /tmp/prometheus_tmp
