@@ -20,7 +20,7 @@ import pandas as pd
 import requests
 from requests.auth import HTTPBasicAuth
 
-from config.config import BaselineFetchConfig, BaselineFetchMetricsConfig
+from baseline.config.config import BaselineFetchConfig
 
 logger = logging.getLogger(__name__)
 

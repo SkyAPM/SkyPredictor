@@ -36,7 +36,7 @@ header:
     - '.idea*'
     - '**/*.proto'
     - '.github'
-    - 'proto'
+    - 'baseline/proto'
     - '.idea'
     - 'poetry.lock'
 

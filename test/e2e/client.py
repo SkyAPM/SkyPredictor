@@ -21,8 +21,8 @@ import google
 import grpc
 import yaml
 
-from proto.generated.baseline_pb2 import AlarmBaselineRequest, AlarmBaselineServiceMetricName
-from proto.generated.baseline_pb2_grpc import AlarmBaselineServiceStub
+from baseline.proto.generated.baseline_pb2 import AlarmBaselineRequest, AlarmBaselineServiceMetricName
+from baseline.proto.generated.baseline_pb2_grpc import AlarmBaselineServiceStub
 
 from google.protobuf.json_format import MessageToDict
 

@@ -17,13 +17,17 @@ import logging
 import os
 from abc import abstractmethod, ABC
 from collections import defaultdict
+from enum import Enum
 
 import pandas as pd
 
 from baseline.predict import PredictMeterResult
-from proto.generated.baseline_pb2 import TimeBucketStep
 
 log = logging.getLogger(__name__)
+
+
+class QueryTimeBucketStep(Enum):
+    HOUR = 1
 
 
 class ResultManager(ABC):
@@ -34,7 +38,7 @@ class ResultManager(ABC):
 
     @abstractmethod
     def query(self, service_name: str, metrics_names: list[str], start_bucket: int, end_bucket: int,
-              step: TimeBucketStep) -> dict[str, list[PredictMeterResult]]:
+              step: QueryTimeBucketStep) -> dict[str, list[PredictMeterResult]]:
         pass
 
 
@@ -53,7 +57,7 @@ class MeterNameResultManager(ResultManager):
             json.dump(grouped_results, f, ensure_ascii=False, separators=(',', ':'), cls=ResultEncoder)
 
     def query(self, service_name: str, metrics_names: list[str], start_bucket: int, end_bucket: int,
-              step: TimeBucketStep) -> dict[str, list[PredictMeterResult]]:
+              step: QueryTimeBucketStep) -> dict[str, list[PredictMeterResult]]:
         results: dict[str, list[PredictMeterResult]] = {}
         startTs, endTs = time_bucket_to_timestamp(start_bucket, step), time_bucket_to_timestamp(end_bucket, step)
         for meter_name in metrics_names:
@@ -76,8 +80,8 @@ class MeterNameResultManager(ResultManager):
         return results
 
 
-def time_bucket_to_timestamp(bucket: int, step: TimeBucketStep) -> pd.Timestamp:
-    if step == TimeBucketStep.HOUR:
+def time_bucket_to_timestamp(bucket: int, step: QueryTimeBucketStep) -> pd.Timestamp:
+    if step == QueryTimeBucketStep.HOUR:
         return pd.to_datetime(f"{bucket}", format="%Y%m%d%H")
     log.warning(f"detect the time bucket query is not hour, baseline is not support for now, current: {step}")
     return pd.Timestamp(0)
