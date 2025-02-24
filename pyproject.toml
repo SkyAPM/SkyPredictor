@@ -23,6 +23,11 @@ packages = [
     { include = "baseline" }
 ]
 
+include = [
+    "proto/**/*",
+    "config/*"
+]
+
 [tool.poetry.dependencies]
 python = "^3.12"
 prophet = "^1.1.6"
