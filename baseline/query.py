@@ -20,7 +20,7 @@ import pandas as pd
 import grpc
 
 from baseline.fetcher import Fetcher
-from baseline.result import ResultManager
+from baseline.result import ResultManager, QueryTimeBucketStep
 from baseline.predict import PredictMeterResult, PredictTimestampWithSingleValue, PredictLabeledWithLabeledValue, \
     LabelKeyValue
 from proto.generated.baseline_pb2 import AlarmBaselineRequest, AlarmBaselineServiceMetric, AlarmBaselineResponse, \
@@ -83,7 +83,8 @@ class BaselineQueryServer(AlarmBaselineServiceServicer):
         for serviceWithMetrics in request.serviceMetricNames:
             predict_metrics = self.result_manager.query(serviceWithMetrics.serviceName,
                                                         list(serviceWithMetrics.metricNames),
-                                                        request.startTimeBucket, request.endTimeBucket, request.step)
+                                                        request.startTimeBucket, request.endTimeBucket,
+                                                        convert_query_time_bucket_step(request.step))
             for metric_name, result in predict_metrics.items():
                 if serviceWithMetrics.serviceName not in results:
                     results[serviceWithMetrics.serviceName] = {}
@@ -110,6 +111,12 @@ class BaselineQueryServer(AlarmBaselineServiceServicer):
             ))
 
         return AlarmBaselineResponse(serviceMetrics=serviceMetrics)
+
+
+def convert_query_time_bucket_step(step: TimeBucketStep) -> QueryTimeBucketStep:
+    if step == TimeBucketStep.HOUR:
+        return QueryTimeBucketStep.HOUR
+    return QueryTimeBucketStep.HOUR
 
 
 def convert_response_metrics(service: str, metric_name: str, results: list[PredictMeterResult],

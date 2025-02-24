@@ -20,7 +20,6 @@ authors = ["mrproliu <741550557@qq.com>"]
 readme = "README.md"
 
 packages = [
-    { include = "server" },
     { include = "baseline" }
 ]
 
