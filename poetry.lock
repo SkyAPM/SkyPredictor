@@ -1050,24 +1050,24 @@ twisted = ["twisted"]
 
 [[package]]
 name = "prophet"
-version = "1.1.6"
+version = "1.1.7"
 description = "Automatic Forecasting Procedure"
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "prophet-1.1.6-py3-none-macosx_10_11_x86_64.whl", hash = "sha256:f4bd565e6ff5f04d74dbf338c99d0aa353e00849c522f6e6663fdaf026bd0b46"},
-    {file = "prophet-1.1.6-py3-none-macosx_11_0_arm64.whl", hash = "sha256:29f69a98dbb4b96580decf773034b18639009c13c2f67c59a7e59a6eb2b92b0e"},
-    {file = "prophet-1.1.6-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:c0bdf573b1d89b0c0e3dc09778816a35dece000f195b2f032ff0ff8076ae0d6a"},
-    {file = "prophet-1.1.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5860990c7a6da33a4381a6adab1b35f7d2ed465eeeb364c3b0f663ff69a78eca"},
-    {file = "prophet-1.1.6-py3-none-win_amd64.whl", hash = "sha256:222ec247e60e0e62fa42572bba27bd82590c7f5225f36b41a3d1762ae2ed96fd"},
-    {file = "prophet-1.1.6.tar.gz", hash = "sha256:92238aa584da69abe5c43e9426e6a4176064465e8424196655915ff86316a680"},
+    {file = "prophet-1.1.7-py3-none-macosx_10_11_x86_64.whl", hash = "sha256:93192d17df5b16e94eea93777eb3015f0803a41e290f822246b1a73c681de6da"},
+    {file = "prophet-1.1.7-py3-none-macosx_11_0_arm64.whl", hash = "sha256:f713d8efa1c08b70b1b6d2146ecb4e315c879d685f4cbd7f5941f7f57296e13d"},
+    {file = "prophet-1.1.7-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:197193ec9e5586f0ff6682e28a8b32b4e8242dd7ef989004f14010e968037a4e"},
+    {file = "prophet-1.1.7-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:382f3ac5865f9c106058fd001c2674a5dc1c78edf8784912a4bd7c68a6c9e99a"},
+    {file = "prophet-1.1.7-py3-none-win_amd64.whl", hash = "sha256:e1b1ae5f4d7ab4676f26290a967e9d918aba54a1b885e80ba6d4ed1c0bf421ae"},
+    {file = "prophet-1.1.7.tar.gz", hash = "sha256:97ef633a7d2d3bb7237f58b6990a68467c3c8089f605ea364b03f842ab3ea9cf"},
 ]
 
 [package.dependencies]
 cmdstanpy = ">=1.0.4"
 holidays = ">=0.25,<1"
-importlib-resources = "*"
+importlib_resources = "*"
 matplotlib = ">=2.0.0"
 numpy = ">=1.15.4"
 pandas = ">=1.0.4"
@@ -1589,4 +1589,4 @@ test = ["websockets"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "1fabae1a8f2c3ec96f534bef44c58c0efd255fa46c3cf64f2997b1be64d74be7"
+content-hash = "6cc4aac3479c92a23ccaca0be5c754adc785ecb339fd206a10d2cee364af0119"
