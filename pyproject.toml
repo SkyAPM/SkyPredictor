@@ -25,14 +25,14 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.12"
-prophet = "^1.1.6"
-apscheduler = "^3.11.0"
-grpcio = "^1.70.0"
-grpcio-tools = "^1.70.0"
-pydantic = "^2.11.5"
-pyyaml = "^6.0.2"
-prometheus-client = "^0.22.0"
-kubernetes = "^32.0.1"
+prophet = "^1.2.1"
+apscheduler = "^3.11.1"
+grpcio = "^1.76.0"
+grpcio-tools = "^1.76.0"
+pydantic = "^2.12.3"
+pyyaml = "^6.0.3"
+prometheus-client = "^0.23.1"
+kubernetes = "^34.1.0"
 
 [build-system]
 requires = ["poetry-core"]
